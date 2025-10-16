@@ -1,3 +1,6 @@
 [submodule "BackEnd"]
 	path = BackEnd
 	url = https://github.com/acurro9/API-Tellix.git
+[submodule "FrontEnd"]
+	path = FrontEnd
+	url = https://github.com/EliazarAS7/Tellix.git
