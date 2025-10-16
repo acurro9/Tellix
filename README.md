@@ -1,169 +1,150 @@
-# Proyecto Tellix (React y SpringBoot con hibernate(API))
+# Tellix: Plataforma de Streaming de Contenido Multimedia
 
-# Tabla de contenidos
+## Introducción
 
-- [Proyecto Tellix]
-- [Tabla de contenidos]
-  - [Parte 1: Aplicación Web](#parte-1:-aplicación-web)
-    - [Descripción](#descripción)
-    - [Diagramas](#diagramas)
-    - [Estructura Gneral](#estructura-general)
-  - [Parte 2: API]
-    - [EndPoints de la API](#endpoints-de-la-api)
-    - [Requisitos Previos](#requisitos-previo)
+**Tellix** es una aplicación web full-stack diseñada como una plataforma de streaming de contenido multimedia (películas y series), emulando la funcionalidad de servicios populares. El proyecto se divide en dos componentes principales: un **Frontend (Cliente Web)** desarrollado con **React** y un **Backend (API RESTful)** construido con **Spring Boot**.
 
-# Parte 1: Aplicación Web
+Este proyecto fue desarrollado con fines educativos como proyecto final del Ciclo Formativo de Grado Superior de Desarrollo de Aplicaciones Web.
 
-## Descripción
+---
 
-Tellix es una plataforma de entretenimiento digital innovadora, diseñada para ofrecer una experiencia de usuario superior y adaptativa, siguiendo las últimas tendencias y tecnologías en el sector. Inspirada en plataformas líderes como Netflix, Tellix se centra en proporcionar contenido de alta calidad a través de una interfaz intuitiva y accesible en múltiples dispositivos. La plataforma aprovecha la tecnología digital para facilitar la creación, distribución y consumo de contenido, permitiendo a los usuarios disfrutar de una amplia variedad de opciones de entretenimiento en cualquier momento y lugar. Con un enfoque en la personalización y la seguridad, Tellix busca transformar la forma en que consumimos entretenimiento, ofreciendo una experiencia única y envolvente.
+## Stack Tecnológico
 
-## Diagramas
+La aplicación se construyó utilizando un _stack_ moderno y robusto, garantizando rendimiento, escalabilidad y una clara separación de responsabilidades.
 
-### Diagrama de casos de uso
+| Componente        | Tecnología Principal                          | Propósito / Librerías Clave                                                                                                                |
+| :---------------- | :-------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------- |
+| **Frontend**      | **React (JavaScript/JSX)**                    | Interfaz de Usuario y Lógica del Cliente. Utiliza **React Router DOM** para la navegación y **Axios** para la comunicación con la API.     |
+| **Estilos**       | **CSS3 Puro** y **React-Bootstrap**           | Diseño _responsive_ y componentes de UI. Implementación de diseño _mobile-first_ con _breakpoints_ específicos.                            |
+| **Backend (API)** | **Spring Boot (Java 21)**                     | Desarrollo de la API RESTful. Implementa **Spring Security** para la autenticación y **Spring Data JPA** (Hibernate) para la persistencia. |
+| **Base de Datos** | **MySQL**                                     | Base de datos relacional para el almacenamiento de datos del catálogo, usuarios y perfiles.                                                |
+| **Testing**       | **JUnit 5**, **Mockito**, **Spring RestDocs** | Pruebas unitarias, de integración y generación de documentación de la API.                                                                 |
 
-![CasosUsoChillFlix](https://hackmd.io/_uploads/B1ppzJ_Q0.png)
+---
 
-### Diagrama UML
+## Parte 1: Aplicación Web (Frontend - React)
 
-![UMLChillFlix](https://hackmd.io/_uploads/rkSymy_mC.png)
+El cliente web ofrece una experiencia de usuario optimizada, con un diseño adaptable a diferentes dispositivos.
 
-### Diagrama de entidad-relación
+### Diseño y Responsividad
 
-![DiagramaER](https://hackmd.io/_uploads/rytRzJOQR.png)
+El diseño se desarrolló bajo un enfoque _mobile-first_, asegurando una visualización correcta y óptima en los principales tamaños de pantalla. Los _breakpoints_ de diseño implementados son:
 
-### Estructura general
+- **Extra Large (XL):** `1920px`
+- **Large (L):** `1300px`
+- **Medium (M):** `768px` (Tabletas)
+- **Small (S):** `400px` (Móviles)
 
-### Public
+### Estructura de Directorios
 
-Aqui esta el index.html que es en donde se renderiza toda la aplicación, y la carpeta icons e img que es en donde esta todas las imagenes que utilizanos durante el proyecto.
+La organización del código sigue la convención estándar de React para facilitar el mantenimiento y escalabilidad.
 
-### src
+/public/
+│ ├── img/ # Imágenes de los usuarios, peliculas y series.
+│ └── icons/ # Iconos de la aplicación.
+/src
+├── components/ # Componentes reutilizables.
+├── css/ # Archivos CSS personalizados para las vistas.
+├── hooks/ # Hooks de navegación.
+├── img/ # Imágenes de las peliculas y series.
+├── views/ # Contenedores o "vistas" principales de la aplicación
+├── router/ # Configuración de las rutas utilizando React Router.
+└── index.js # Punto de entrada de la aplicación.
 
-- Components: Aqui es donde se hace todos los componentes de la aplicación como el header o el footer, en nuestro caso solo tenemos hecho el header que es el menu de navegación.
-- Css: En esta carpeta es donde tenemos todos los css de las vistas de la aplicación.
-- Img: Carpeta en donde estan todas las imagenes de la aplicación, todas las imagenes de las peliculas y todas las imagenes de la series.
-- Views: Aqui es donde se ponene todas las vistas de la aplicacion y en donde se maneja cada una de ellas.
-- Index.js: Es en donde esta conectado el archivo router y todas las vistas de la aplicación
-- Route.jsx: Es donde se maneja todas las rutas de la aplicacion con todas las vistas del proyecto.
+## Parte 2: API RESTful (Backend - Spring Boot)
 
-# Parte 2: API
+El backend de Tellix es una API RESTful robusta que gestiona la lógica de negocio, la persistencia de datos y la seguridad.
 
-### EndPoints de la API
+### Arquitectura
 
-### Capitulos
+La API implementa una **Arquitectura de Capas** clara, promoviendo la modularidad y el principio de Responsabilidad Única (SRP):
 
-- getAll: http://194.164.170.62:5001/api/tellix/capitulos/
-- getAll Paged: http://194.164.170.62:5001/api/tellix/capitulos/paged?page=0&size=3&sort=id,asc
-- getOne: http://194.164.170.62:5001/api/tellix/capitulos/2
-- create: http://194.164.170.62:5001/api/tellix/capitulos/
-- delete: http://194.164.170.62:5001/api/tellix/capitulos/1
-- update: http://194.164.170.62:5001/api/tellix/capitulos/1
+- **Controllers:** Manejan las solicitudes HTTP y dirigen las peticiones.
+- **Services:** Contienen la lógica de negocio principal de la aplicación.
+- **Repositories:** Gestionan la interacción con la base de datos a través de Spring Data JPA.
+- **Entities:** Modelos de datos mapeados a tablas de la base de datos (con Hibernate).
 
-### Categorias
+### Base de Datos y Modelado
 
-- getAll: http://194.164.170.62:5001/api/tellix/categorias/
-- getAll Paged: http://194.164.170.62:5001/api/tellix/categorias/paged?page=0&size=2&sort=id,asc
-- getOne: http://194.164.170.62:5001/api/tellix/categorias/2
-- create: http://194.164.170.62:5001/api/tellix/categorias/
-- delete: http://194.164.170.62:5001/api/tellix/categorias/12
-- update: http://194.164.170.62:5001/api/tellix/categorias/1
-- Search By Name: http://194.164.170.62:5001/api/tellix/categorias/search?name=Accion
-- Search By Name Paged: http://194.164.170.62:5000/api/tellix/categorias/search/paged?name=Accion&page=0&size=5&sort=id,asc
+El diseño de la base de datos soporta las relaciones complejas de una plataforma de streaming (Usuarios, Perfiles, Películas, Series, Temporadas, Capítulos, Categorías).
 
-### Peliculas
+**Diagramas de la Arquitectura:**
 
-- getAll: http://194.164.170.62:5001/api/tellix/peliculas/
-- getAll Paged: http://194.164.170.62:5001/api/tellix/peliculas/paged?page=0&size=21&sort=id,asc
-- getOne: http://194.164.170.62:5001/api/tellix/peliculas/2
-- create: http://194.164.170.62:5001/api/tellix/peliculas/
-- delete: http://194.164.170.62:5001/api/tellix/peliculas/1
-- update: http://194.164.170.62:5001/api/tellix/peliculas/12
-- Search by category: http://194.164.170.62:5001/api/tellix/peliculas/searchCat?catID=2
-- Search by category paged: http://194.164.170.62:5001/api/tellix/peliculas/searchCat/paged?catID=2&page=0&size=2&sort=id,asc
-- Search by name: http://194.164.170.62:5001/api/tellix/peliculas/search?name=C
-- Search by name paged: http://194.164.170.62:5001/api/tellix/peliculas/search/paged?name=C&page=0&size=2&sort=id,asc
-- addCategory: http://194.164.170.62:5001/api/tellix/peliculas/addCat?peliculaID&catID
-- Add Family: http://194.164.170.62:5001/api/tellix/peliculas/addFam?peliculaID&famID
+| Diagrama                           | Descripción                                                       | Enlace                                                    |
+| :--------------------------------- | :---------------------------------------------------------------- | :-------------------------------------------------------- |
+| **Diagrama de Casos de Uso**       | Define las interacciones entre los actores y el sistema.          | ![Casos de Uso](https://hackmd.io/_uploads/B1ppzJ_Q0.png) |
+| **Diagrama UML de Clases**         | Muestra la estructura estática del sistema (Clases y relaciones). | ![UML](https://hackmd.io/_uploads/rkSymy_mC.png)          |
+| **Diagrama Entidad-Relación (ER)** | Representación del modelo de datos de la base de datos.           | ![Diagrama ER](https://hackmd.io/_uploads/rytRzJOQR.png)  |
 
-### Perfil
+### Endpoints Principales de la API
 
-- getAll: http://194.164.170.62:5001/api/tellix/perfiles/
-- getAll paged: http://194.164.170.62:5001/api/tellix/perfiles/paged?page=0&size=5&sort=id,asc
-- getOne: http://194.164.170.62:5001/api/tellix/perfiles/3
-- create: http://194.164.170.62:5001/api/tellix/perfiles/
-- delete: http://194.164.170.62:5001/api/tellix/perfiles/5
-- update: http://194.164.170.62:5001/api/tellix/perfiles/2
-- getAll by usuarios: http://194.164.170.62:5001/api/tellix/perfiles/profiles?usuID=4
-- add series: http://194.164.170.62:5001/api/tellix/perfiles/watchList/add/serie?perfilID=3&serieID=2
-- remove series: http://194.164.170.62:5001/api/tellix/perfiles/watchList/delete/serie?perfilID=22&serieID=2
-- add film: http://194.164.170.62:5001/api/tellix/perfiles/watchList/add/film?perfilID=3&peliculaID=1
-- remove film: http://194.164.170.62:5001/api/tellix/perfiles/watchList/delete/film?perfilID=22&peliculaID=1
+La API ofrece un conjunto completo de endpoints RESTful con operaciones CRUD (Create, Read, Update, Delete) y funciones de búsqueda y paginación.
 
-### Series
+- **Base URL:** `http://127.0.0.1:5000/api/tellix/`
 
-- getAll: http://194.164.170.62:5001/api/tellix/series/
-- getAll Page: http://194.164.170.62:5001/api/tellix/series/paged?page=0&size=10&sort=id,asc
-- getOne: http://194.164.170.62:5001/api/tellix/series/2
-- create: http://194.164.170.62:5001/api/tellix/series/
-- Delete: http://194.164.170.62:5001/api/tellix/series/1
-- update: http://194.164.170.62:5001/api/tellix/series/1
-- Search by Category: http://194.164.170.62:5001/api/tellix/series/searchCat?catID=1
-- Search by category paged: http://194.164.170.62:5001/api/tellix/series/searchCat/paged?catID=1&page=0&size=5&sort=id,asc
-- Search by name: http://194.164.170.62:5001/api/tellix/series/search?name=C
-- Search by name Paged: http://194.164.170.62:5001/api/tellix/series/search/paged?name=da&page=0&size=5&sort=id,asc
-- Count seasons: http://194.164.170.62:5001/api/tellix/series/temp?id=1
-- Add Category: http://194.164.170.62:5001/api/tellix/series/addCat?serieID&catID
-- Add Season: http://194.164.170.62:5001/api/tellix/series/addTemp?serieID=&temporadaID=
-- Add family: http://194.164.170.62:5001/api/tellix/series/addFam?serieID&famID
+| Recurso        | Ejemplo de Endpoint                            | Funcionalidad Clave                                         |
+| :------------- | :--------------------------------------------- | :---------------------------------------------------------- |
+| **Usuarios**   | `/usuarios/login`                              | Autenticación, gestión de suscripciones y perfiles.         |
+| **Perfiles**   | `/perfiles/profiles?usuID={id}`                | Gestión de listas de seguimiento (_Watch List_) por perfil. |
+| **Películas**  | `/peliculas/searchCat/paged?catID={id}&page=0` | Búsqueda y paginación por categoría.                        |
+| **Series**     | `/series/search?name={nombre}`                 | Búsqueda por nombre.                                        |
+| **Capítulos**  | `/capitulos/`                                  | CRUD de contenido a nivel de capítulo.                      |
+| **Categorías** | `/categorias/search?name={nombre}`             | Búsqueda de categorías por nombre.                          |
 
-### Temporadas
+_(Nota: La documentación completa de los endpoints está disponible en el archivo de **Postman Collection** incluido en la carpeta **Otros** junto con el entorno que contiene las variables)._
 
-- getAll: http://194.164.170.62:5001/api/tellix/temporadas/
-- getAll paged: http://194.164.170.62:5001/api/tellix/temporadas/paged?page=0&size=5&sort=id,asc
-- getOne: http://194.164.170.62:5001/api/tellix/temporadas/2
-- create: http://194.164.170.62:5001/api/tellix/temporadas/paged?page=0&size=5&sort=id,asc
-- delete: http://194.164.170.62:5001/api/tellix/temporadas/1
-- update: http://194.164.170.62:5001/api/tellix/temporadas/6
-- count chapter: http://194.164.170.62:5001/api/tellix/temporadas/cap?id=1
-- add chapter: http://194.164.170.62:5001/api/tellix/temporadas/addChapter?temporadaID&capituloID
+---
 
-### Usuarios
+## Requisitos Previos y Ejecución Local
 
-- getAll: http://194.164.170.62:5001/api/tellix/usuarios/
-- getAll paged: http://194.164.170.62:5001/api/tellix/usuarios/paged?page=0&size=5&sort=id,desc
-- getOne: http://194.164.170.62:5001/api/tellix/usuarios/2
-- create: http://194.164.170.62:5001/api/tellix/usuarios/
-- delete: http://194.164.170.62:5001/api/tellix/usuarios/1
-- update: http://194.164.170.62:5001/api/tellix/usuarios/1
-- login: http://194.164.170.62:5001/api/tellix/usuarios/login?mail=acurrosolla@gmail.com&password=1234
-- add perfil: http://194.164.170.62:5001/api/tellix/usuarios/addPerfil?usuID=6&perfilID=36
-- remove perfil: http://194.164.170.62:5001/api/tellix/usuarios/removePerfil?perfilID=34
-- bloq: http://194.164.170.62:5001/api/tellix/usuarios/bloq?usuID=11&bloqStatus=true
-- suscription: http://194.164.170.62:5001/api/tellix/usuarios/suscription?usuID=2&susStatus=true
+Sigue estos pasos para levantar la aplicación en tu entorno local.
 
-### Family
+### 1. Requisitos Generales
 
-- getAll: http://194.164.170.62:5001/api/tellix/familias/
-- getAll paged: http://194.164.170.62:5001/api/tellix/familias/paged?page=0&size=2&sort=id,asc
-- getOne: http://194.164.170.62:5001/api/tellix/familias/2
-- Search by film ID: http://194.164.170.62:5001/api/tellix/familias/search/film/2
-- Search by serie ID: http://194.164.170.62:5001/api/tellix/familias/search/serie/2
-- create: http://194.164.170.62:5001/api/tellix/familias/
-- delete: http://194.164.170.62:5001/api/tellix/familias/1
-- update: http://194.164.170.62:5001/api/tellix/familias/1
-- Search by name: http://194.164.170.62:5001/api/tellix/familias/search?name=Accion
-- Search by name paged: http://194.164.170.62:5001/api/tellix/familias/search/paged?name=Accion&page=0&size=5&sort=id,asc
+- **Java Development Kit (JDK) 21** (Actualmente la version JDK 25 no está soportada)
+- **Node.js** y **npm**
+- **MySQL Server**
+- **Maven**
 
-### Requisitos Previos:
+### 2. Configuración del Backend (API)
 
-- Cuando te instales el proyecto te tendras que descargar todos los package, para eso en la consola tendras que poner: npm i, y automaticamente se te instala todos los paquetes
-- Para arrancar el proyecto localmente tienes que poner en la consola npm run start y se te pondra en el puerto 3000 automaticamente.
+1.  **Configurar Base de Datos:**
+    - Ejecuta el script SQL `Otros/tellixDB.sql` en tu servidor MySQL para crear la base de datos y las tablas necesarias juntos con los datos.
+2.  **Configurar Credenciales:**
+    - Edita el archivo `application.properties` para actualizar el nombre de usuario y la contraseña de tu base de datos MySQL.
+3.  **Ejecución:**
+    - Ejecución del proyecto completo:
+      - Abre la terminal en la raíz del proyecto backend.
+      - Ejecuta el comando: `mvn spring-boot:run`
+      - La API estará disponible en `http://localhost:5000`.
+    - Ejecución del .jar:
+      - Abre la terminal en la raíz del proyecto backend.
+      - Ejecutar el comando 'java -jar target/tellix-0.0.1-SNAPSHOT.jar
 
-## Autoría
+### 3. Configuración del Frontend (React)
 
-Este proyecto fue desarrollado por @acurro9 y @EliazarAS7
+1.  **Instalar Dependencias:**
+    - Abre la terminal en la raíz del proyecto frontend.
+    - Ejecuta el comando: `npm i`
+2.  **Ejecución:**
+
+    - Ejecuta el comando: `npm run start`
+    - La aplicación web se abrirá en tu navegador, generalmente en `http://localhost:80`.
+
+3.  **Login**
+    - Para iniciar sesión puedes crear un nuevo usuarios. En caso de no querer hacerlo puedes usar el siguiente usuario:
+      - Correo: aaron@gmail.com
+      - Contraseña: 1234
+
+---
+
+## Autoría y Contribuciones
+
+Este proyecto fue desarrollado por:
+
+- **Aarón Curro Solla** ([@acurro9](https://github.com/acurro9))
+- **Eliazar Alonso Santana** ([@EliazarAS7](https://github.com/EliazarAS7))
 
 ## Licencia
 
-Proyecto elaborado para fines educativos para el proyecto final del Ciclo Formativo de Grado Superior de Desarrollo de Aplicaciones Web.
+Este proyecto fue elaborado para fines educativos como proyecto final de ciclo formativo, y está sujeto a los términos de la **Licencia Educativa**.
